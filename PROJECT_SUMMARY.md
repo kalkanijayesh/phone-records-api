@@ -108,7 +108,7 @@ phone-records-api/
 
 ### Quick Start (H2)
 ```bash
-docker compose --profile h2 up --build
+docker compose up --build
 ```
 
 ### With PostgreSQL
@@ -118,7 +118,7 @@ docker compose --profile postgres up --build
 
 ### With Phone Validation
 ```bash
-PHONE_VALIDATION_API_KEY=your_key docker compose --profile h2 up --build
+PHONE_VALIDATION_API_KEY=your_key docker compose up --build
 ```
 
 ## API Endpoints
@@ -252,7 +252,7 @@ All examples are available in `docs/curl-examples.md`
 ## Getting Started
 
 1. Clone the repository
-2. Run: `docker compose --profile h2 up --build`
+2. Run: `docker compose up --build`
 3. Test: `curl http://localhost:8080/api/phones`
 4. Explore: `./test-api.sh` or `docs/curl-examples.md`
 

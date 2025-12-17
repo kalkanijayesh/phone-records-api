@@ -37,7 +37,7 @@ A Spring Boot REST API for managing phone records with external phone number val
 This is the simplest way to run the application:
 
 ```bash
-docker compose --profile h2 up --build
+docker compose up --build
 ```
 
 The application will be available at: `http://localhost:8080`
@@ -70,13 +70,13 @@ You can configure the following environment variables:
 
 ```bash
 export PHONE_VALIDATION_API_KEY=your_api_key_here
-docker compose --profile h2 up --build
+docker compose up --build
 ```
 
 Or pass it inline:
 
 ```bash
-PHONE_VALIDATION_API_KEY=your_api_key_here docker compose --profile h2 up --build
+PHONE_VALIDATION_API_KEY=your_api_key_here docker compose up --build
 ```
 
 **Note**: Without an API key, the application will run but skip phone validation (validation will always pass).
@@ -257,7 +257,7 @@ mvn test
 
 ```bash
 # Stop and remove containers
-docker compose --profile h2 down
+docker compose  down
 
 # Or for PostgreSQL
 docker compose --profile postgres down

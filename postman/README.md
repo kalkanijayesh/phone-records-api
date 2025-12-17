@@ -172,7 +172,7 @@ Recommended sequence:
 
 | Issue | Solution |
 |-------|----------|
-| Connection refused | Start API: `docker compose --profile h2 up` |
+| Connection refused | Start API: `docker compose up` |
 | Tests failing | Verify environment is selected |
 | Wrong baseUrl | Edit environment variable |
 | Validation bypassed | Set PHONE_VALIDATION_API_KEY |

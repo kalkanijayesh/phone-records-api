@@ -82,7 +82,7 @@ Collection Runner → View Results
 
 | Issue | Solution |
 |-------|----------|
-| Connection refused | Start API: `docker compose --profile h2 up` |
+| Connection refused | Start API: `docker compose up` |
 | Wrong environment | Select environment from dropdown |
 | Tests failing | Check baseUrl matches your setup |
 | Validation not working | Set PHONE_VALIDATION_API_KEY |

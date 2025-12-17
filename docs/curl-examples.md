@@ -4,7 +4,7 @@ This document contains comprehensive cURL commands for testing all API endpoints
 
 ## Prerequisites
 
-- Ensure the application is running: `docker compose --profile h2 up --build`
+- Ensure the application is running: `docker compose up --build`
 - Base URL: `http://localhost:8080`
 - All examples use JSON format
 
@@ -523,12 +523,12 @@ If validation is not working:
 
 2. Set the API key:
    ```bash
-   PHONE_VALIDATION_API_KEY=your_key docker compose --profile h2 up --build
+   PHONE_VALIDATION_API_KEY=your_key docker compose up --build
    ```
 
 3. Disable validation for testing:
    ```bash
-   PHONE_VALIDATION_ENABLED=false docker compose --profile h2 up --build
+   PHONE_VALIDATION_ENABLED=false docker compose up --build
    ```
 
 ---

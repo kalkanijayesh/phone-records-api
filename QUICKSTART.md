@@ -14,7 +14,7 @@ Choose one of the following options:
 ### Option A: H2 Database (Recommended for testing)
 
 ```bash
-docker compose --profile h2 up --build
+docker compose up --build
 ```
 
 ### Option B: PostgreSQL (For persistent storage)
@@ -60,7 +60,7 @@ To enable real phone number validation:
 2. Stop the application (Ctrl+C)
 3. Run with API key:
    ```bash
-   PHONE_VALIDATION_API_KEY=your_key_here docker compose --profile h2 up --build
+   PHONE_VALIDATION_API_KEY=your_key_here docker compose up --build
    ```
 
 ## Stopping the Application
@@ -68,7 +68,7 @@ To enable real phone number validation:
 Press `Ctrl+C` in the terminal where the application is running, then:
 
 ```bash
-docker compose --profile h2 down
+docker compose  down
 ```
 
 ## Troubleshooting

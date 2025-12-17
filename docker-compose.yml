@@ -15,8 +15,6 @@ services:
       - PHONE_VALIDATION_ENABLED=${PHONE_VALIDATION_ENABLED:-true}
     networks:
       - phone-records-network
-    profiles:
-      - h2
 
 networks:
   phone-records-network:

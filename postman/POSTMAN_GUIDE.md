@@ -283,7 +283,7 @@ When running the full collection against a fresh database:
 
 **Problem**: Cannot reach API
 **Solution**: 
-- Ensure API is running: `docker compose --profile h2 ps`
+- Ensure API is running: `docker compose  ps`
 - Check baseUrl in environment matches actual URL
 - Verify port 8080 is not blocked
 
