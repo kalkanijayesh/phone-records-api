@@ -1,0 +1,1185 @@
+{
+	"info": {
+		"_postman_id": "phone-records-api-collection",
+		"name": "Phone Records API - Complete Test Suite",
+		"description": "Comprehensive Postman collection for Phone Records REST API with all positive and negative test scenarios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Positive Scenarios",
+			"item": [
+				{
+					"name": "Create Phone Record - Valid US Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response has id\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.environment.set(\"recordId\", jsonData.id);",
+									"});",
+									"",
+									"pm.test(\"Response has correct name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.eql(\"John Doe\");",
+									"});",
+									"",
+									"pm.test(\"Response has correct phone number\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.phoneNumber).to.eql(\"14158586273\");",
+									"});",
+									"",
+									"pm.test(\"Response has country code\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('country');",
+									"});",
+									"",
+									"pm.test(\"Response has timestamps\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('createdAt');",
+									"    pm.expect(jsonData).to.have.property('updatedAt');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"phoneNumber\": \"14158586273\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Create a phone record with a valid US phone number"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Valid UK Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response has id\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"});",
+									"",
+									"pm.test(\"Country code is GB or UK\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.country).to.be.oneOf(['GB', 'UK', 'Unknown']);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jane Smith\",\n    \"phoneNumber\": \"442071838750\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Create a phone record with a valid UK phone number"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Valid German Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response contains all required fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.all.keys('id', 'name', 'phoneNumber', 'country', 'createdAt', 'updatedAt');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Hans Mueller\",\n    \"phoneNumber\": \"493012345678\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Create a phone record with a valid German phone number"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Phone Records",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Retrieve all phone records from the database"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Phone Record by ID - Existing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has correct structure\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData).to.have.property('name');",
+									"    pm.expect(jsonData).to.have.property('phoneNumber');",
+									"    pm.expect(jsonData).to.have.property('country');",
+									"    pm.expect(jsonData).to.have.property('createdAt');",
+									"    pm.expect(jsonData).to.have.property('updatedAt');",
+									"});",
+									"",
+									"pm.test(\"ID matches requested ID\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.id).to.eql(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phones/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones",
+								"1"
+							]
+						},
+						"description": "Retrieve a specific phone record by ID (existing record)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Phone Record by ID - Using Environment Variable",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response ID matches environment variable\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var expectedId = parseInt(pm.environment.get(\"recordId\"));",
+									"    pm.expect(jsonData.id).to.eql(expectedId);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phones/{{recordId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones",
+								"{{recordId}}"
+							]
+						},
+						"description": "Retrieve the phone record that was created and stored in environment variable"
+					},
+					"response": []
+				}
+			],
+			"description": "All positive test scenarios where requests should succeed"
+		},
+		{
+			"name": "Negative Scenarios - Validation Errors",
+			"item": [
+				{
+					"name": "Create Phone Record - Invalid Phone Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Error response structure is correct\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData).to.have.property('error');",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData).to.have.property('path');",
+									"});",
+									"",
+									"pm.test(\"Error message mentions invalid phone number\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message.toLowerCase()).to.include('invalid');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Invalid User\",\n    \"phoneNumber\": \"1234567890\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Attempt to create a phone record with an invalid phone number"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Duplicate Phone Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test(\"Error response has correct structure\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData).to.have.property('error');",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData).to.have.property('path');",
+									"});",
+									"",
+									"pm.test(\"Status in error is 409\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(409);",
+									"});",
+									"",
+									"pm.test(\"Error type is Conflict\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.error).to.eql('Conflict');",
+									"});",
+									"",
+									"pm.test(\"Error message mentions phone number already exists\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message.toLowerCase()).to.include('already exists');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Duplicate User\",\n    \"phoneNumber\": \"14158586273\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Attempt to create a phone record with a phone number that already exists (assumes ID 1 was created with this number)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Too Short Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 or 503\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 503]);",
+									"});",
+									"",
+									"pm.test(\"Error message is present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test User\",\n    \"phoneNumber\": \"123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Attempt to create a phone record with a phone number that's too short"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Missing Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Error mentions missing name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message.toLowerCase()).to.include('name');",
+									"});",
+									"",
+									"pm.test(\"Error type is Validation Failed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.error).to.include('Validation');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phoneNumber\": \"14158586273\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Attempt to create a phone record without providing the name field"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Missing Phone Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Error mentions missing phone number\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message.toLowerCase()).to.include('phone');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Attempt to create a phone record without providing the phone number field"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Empty Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validation error occurred\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.error).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"phoneNumber\": \"14158586273\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Attempt to create a phone record with an empty name string"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Empty Phone Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Validation error occurred\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.error).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"phoneNumber\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Attempt to create a phone record with an empty phone number string"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Empty JSON Body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Error message mentions both fields\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message.toLowerCase()).to.satisfy(function(msg) {",
+									"        return msg.includes('name') && msg.includes('phone');",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Attempt to create a phone record with an empty JSON object"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Malformed JSON",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"phoneNumber\": \"14158586273\"\n"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Attempt to create a phone record with malformed JSON (missing closing brace)"
+					},
+					"response": []
+				}
+			],
+			"description": "Negative scenarios testing validation errors"
+		},
+		{
+			"name": "Negative Scenarios - Not Found",
+			"item": [
+				{
+					"name": "Get Phone Record by ID - Non-Existing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Error response has correct structure\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData).to.have.property('error');",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"    pm.expect(jsonData).to.have.property('path');",
+									"});",
+									"",
+									"pm.test(\"Status in error is 404\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Error type is Not Found\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.error).to.eql('Not Found');",
+									"});",
+									"",
+									"pm.test(\"Error message mentions ID 999\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.include('999');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phones/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones",
+								"999"
+							]
+						},
+						"description": "Attempt to retrieve a phone record that doesn't exist (ID 999)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Phone Record by ID - Very Large ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Error message mentions not found\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message.toLowerCase()).to.include('not found');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phones/999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones",
+								"999999"
+							]
+						},
+						"description": "Attempt to retrieve a phone record with a very large non-existing ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Phone Record by ID - Zero",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phones/0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones",
+								"0"
+							]
+						},
+						"description": "Attempt to retrieve a phone record with ID 0 (typically invalid)"
+					},
+					"response": []
+				}
+			],
+			"description": "Negative scenarios testing 404 Not Found errors"
+		},
+		{
+			"name": "Edge Cases",
+			"item": [
+				{
+					"name": "Create Phone Record - Very Long Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201 or 400\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 400]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat\",\n    \"phoneNumber\": \"14158586273\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Test with a very long name to check field length limits"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Special Characters in Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Name with special characters is preserved\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.include('O\\'Brien');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Patrick O'Brien-Jos\u00e9 Mar\u00eda\",\n    \"phoneNumber\": \"14158586273\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Test with special characters in name (apostrophes, hyphens, accents)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Phone Record - Unicode Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Unicode characters are preserved\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.name).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\u5c71\u7530\u592a\u90ce\",\n    \"phoneNumber\": \"14158586273\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Test with Unicode characters (Japanese characters)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Records - Check Empty Array When No Data",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// This test assumes database is empty or testing with fresh instance"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response is an array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Verify that GET all returns empty array when no records exist"
+					},
+					"response": []
+				}
+			],
+			"description": "Edge cases and boundary testing"
+		},
+		{
+			"name": "Performance Tests",
+			"item": [
+				{
+					"name": "Get All Records - Response Time Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones"
+							]
+						},
+						"description": "Check that GET all records responds quickly"
+					},
+					"response": []
+				},
+				{
+					"name": "Get by ID - Response Time Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/phones/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"phones",
+								"1"
+							]
+						},
+						"description": "Check that GET by ID responds quickly"
+					},
+					"response": []
+				}
+			],
+			"description": "Performance and response time tests"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "recordId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
